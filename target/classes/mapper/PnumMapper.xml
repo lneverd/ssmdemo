@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xiaow.ssmdemo.mapper.PnumMapper">
+
+    <select id="findALL" resultType="com.xiaow.ssmdemo.model.PnumBean" parameterType="PnumBean">
+        select * from tb_pnum where 1=1
+         <if test="id!=null and id!=''">
+             tb_pnum.id=#{id}
+         </if>
+         ORDER BY tb_pnum.id
+    </select>
+
+    <insert id="insert" parameterType="com.xiaow.ssmdemo.model.PnumBean" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO tb_pnum(id,uid,pid,age,money,ctime,identification) values (#{id},#{uid},#{pid},#{age},#{money},now(),#{identification})
+    </insert>
+
+    <update id="update" parameterType="PnumBean">
+        UPDATE tb_pnum
+        <set>
+            <if test="age!=null and age!=''">
+                tb_pnum.age=#{age},
+            </if>
+            <if test="money!=null and money!=''">
+                tb_pnum.money=#{money},
+            </if>
+            <if test="identification!=null and identification!=''">
+                tb_pnum.identification=#{identification}
+            </if>
+        </set>
+        WHERE id=#{id}
+    </update>
+
+    <select id="findById" resultType="com.xiaow.ssmdemo.model.PnumBean">
+        select * from tb_pnum where id=#{id}
+    </select>
+
+    <select id="findByPid" resultType="com.xiaow.ssmdemo.model.PnumBean">
+        select * from tb_pnum where pid=#{pid} and identification="目前"
+    </select>
+
+    <select id="findByUid" resultType="com.xiaow.ssmdemo.model.PnumBean">
+        select * from tb_pnum where uid=#{uid}
+    </select>
+
+</mapper>

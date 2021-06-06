@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xiaow.ssmdemo.mapper.CategoryMapper">
+
+    <select id="findALL" resultType="com.xiaow.ssmdemo.model.CategoryBean">
+        SELECT * FROM tb_category ORDER BY id
+    </select>
+
+    <insert id="insert" parameterType="com.xiaow.ssmdemo.model.CategoryBean">
+        INSERT INTO tb_category(id,category) values (#{id},#{category})
+    </insert>
+
+    <update id="update" parameterType="CategoryBean">
+        UPDATE tb_category  SET category=#{category} WHERE id=#{id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        delete from tb_category where id=#{id}
+    </delete>
+
+
+    <select id="findById" resultType="com.xiaow.ssmdemo.model.CategoryBean">
+        select * from tb_category where id=#{id}
+    </select>
+
+    <select id="findByName" resultType="com.xiaow.ssmdemo.model.CategoryBean">
+        select * from tb_category where category=#{category}
+    </select>
+
+</mapper>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xiaow.ssmdemo.mapper.MedicineMapper">
+
+    <select id="findALL" resultType="com.xiaow.ssmdemo.model.MedicineBean" parameterType="integer">
+        select tb_medicine.*,tb_category.category from tb_medicine left join tb_category on tb_medicine.cid = tb_category.id where 1=1
+        <if test="cid!=null and cid!=''">
+            and tb_medicine.cid=#{cid}
+        </if>
+        ORDER BY tb_medicine.id
+    </select>
+
+    <insert id="insert" parameterType="com.xiaow.ssmdemo.model.MedicineBean">
+        INSERT INTO tb_medicine(id,medicine,price,num,logo,cid) values (#{id},#{medicine},#{price},#{num},#{logo},#{cid})
+    </insert>
+
+    <update id="update" parameterType="MedicineBean">
+        UPDATE tb_medicine SET medicine=#{medicine},price=#{price},num=#{num},logo=#{logo},cid=#{cid} WHERE id=#{id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        delete from tb_medicine where id=#{id}
+    </delete>
+
+
+    <select id="findById" resultType="com.xiaow.ssmdemo.model.MedicineBean">
+        select * from tb_medicine where id=#{id}
+    </select>
+
+    <select id="findByName" resultType="com.xiaow.ssmdemo.model.MedicineBean">
+        select * from tb_medicine where medicine=#{medicine}
+    </select>
+
+    <select id="findByCid" resultType="com.xiaow.ssmdemo.model.MedicineBean">
+        select * from tb_medicine where cid=#{cid}
+    </select>
+
+</mapper>

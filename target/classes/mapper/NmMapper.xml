@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xiaow.ssmdemo.mapper.NmMapper">
+
+    <insert id="insert" parameterType="com.xiaow.ssmdemo.model.NmBean" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO tb_nm(id,nid,mid,counts) values (#{id},#{nid},#{mid},#{counts})
+    </insert>
+
+    <update id="update" parameterType="NmBean">
+        UPDATE tb_nm
+        <set>
+            <if test="counts!=null and counts!=''">
+                tb_nm.counts=#{counts}
+            </if>
+        </set>
+        WHERE id=#{id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        delete from tb_nm where id=#{id}
+    </delete>
+
+    <select id="findByNid" resultType="com.xiaow.ssmdemo.model.NmBean">
+        select tb_nm.counts,tb_medicine.medicine,tb_medicine.price,tb_medicine.logo,tb_category.category from tb_nm
+        left join tb_medicine on tb_nm.mid = tb_medicine.id
+        left join tb_category on tb_medicine.cid = tb_category.id
+        where nid=#{nid}
+    </select>
+
+</mapper>

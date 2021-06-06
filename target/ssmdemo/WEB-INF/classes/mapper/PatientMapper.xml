@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xiaow.ssmdemo.mapper.PatientMapper">
+
+    <select id="findALL" resultType="com.xiaow.ssmdemo.model.PatientBean" parameterType="PatientBean">
+        select * from tb_patient where 1=1
+         <if test="id!=null and id!=''">
+             tb_patient.id=#{id}
+         </if>
+         ORDER BY tb_patient.outt
+    </select>
+
+    <insert id="insert" parameterType="com.xiaow.ssmdemo.model.PatientBean" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO tb_patient(id,name,sex,idcard,outt) values (#{id},#{name},#{sex},#{idcard},#{outt})
+    </insert>
+
+    <update id="update" parameterType="PatientBean">
+        UPDATE tb_patient
+        <set>
+            <if test="name!=null and name!=''">
+                tb_patient.name=#{name},
+            </if>
+            <if test="sex!=null and sex!=''">
+                tb_patient.sex=#{sex},
+            </if>
+            <if test="idcard!=null and idcard!=''">
+                tb_patient.idcard=#{idcard}
+            </if>
+            <if test="outt!=null and outt!=''">
+                tb_patient.outt=#{outt}
+            </if>
+        </set>
+        WHERE id=#{id}
+    </update>
+
+    <update id="updateByIdCard" parameterType="PatientBean">
+        UPDATE tb_patient
+        <set>
+            <if test="name!=null and name!=''">
+                tb_patient.name=#{name},
+            </if>
+            <if test="sex!=null and sex!=''">
+                tb_patient.sex=#{sex},
+            </if>
+            <if test="outt!=null and outt!=''">
+                tb_patient.outt=#{outt}
+            </if>
+        </set>
+        WHERE idcard=#{idcard}
+    </update>
+
+    <select id="findById" resultType="com.xiaow.ssmdemo.model.PatientBean">
+        select * from tb_patient where tb_patient.id=#{id}
+    </select>
+
+    <select id="findByName" resultType="com.xiaow.ssmdemo.model.PatientBean">
+        select * from tb_patient where tb_patient.name=#{name}
+    </select>
+
+    <select id="findByIdCard" resultType="com.xiaow.ssmdemo.model.PatientBean">
+        select * from tb_patient where tb_patient.idcard=#{idcard}
+    </select>
+
+    <select id="getHistory" resultType="com.xiaow.ssmdemo.model.PatientBean">
+        select tb_patient.*,tb_pnum.id nid,tb_pnum.uid,tb_pnum.pid,tb_pnum.age,tb_pnum.money,tb_pnum.ctime,tb_pnum.identification,tb_user.username
+        from tb_patient left join tb_pnum on tb_patient.id=tb_pnum.pid
+        left join tb_user on tb_pnum.uid=tb_user.id where tb_patient.id=#{id}
+    </select>
+
+</mapper>
